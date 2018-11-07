@@ -85,3 +85,7 @@ def won?(board)
   end
   winner
 end
+
+def full?(board)
+  !board.any? { |x| x == " " }
+end
