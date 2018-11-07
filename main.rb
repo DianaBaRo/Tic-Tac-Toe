@@ -9,81 +9,23 @@ WIN_COMBINATIONS = [
   [2,4,6] # Rigth to Left diagonal
 ]
 
-def display_board (board = [" ", " ", " ", " ", " ", " ", " ", " ", " "])
-  puts " #{board[0]} | #{board[1]} | #{board[2]} "
-  puts "-----------"
-  puts " #{board[3]} | #{board[4]} | #{board[5]} "
-  puts "-----------"
-  puts " #{board[6]} | #{board[7]} | #{board[8]} "
-end  
-
-def input_to_index(move)
-  index = move.to_i - 1
-  index
-end
-
-def valid_move?(board, index)
-  if (board[index] == " " || board[index] == "" || board[index] == nil) && index.between?(0, 8)
-    return true
-  else
-    return false
-  end
-end
-
-def move(board, index, value = "X")
-  puts board[index] = value
-end
-
-def turn(board)
-  puts "Please enter 1-9:"
-  user_input = gets.strip
-  index = input_to_index(user_input)
-  if valid_move?(board, index)
-    move(board, index)
-    display_board(board)
-  else
-    turn(board)
-  end
-  display_board(board)
-end
-
-def play(board)
-  counter = 0
-  while counter < 9
-    turn(board)
-    counter += 1
-  end
-end
-
-def turn_count(board)
-  move_counter = 0
-  board.each do |space|
-    if space == "X" || space == "O"
-      move_counter += 1
-    end
-  end
-  return move_counter
-end
-
-def current_player(board)
-  if turn_count(board).even?
-    return "X"
-  else
-    return "O"
-  end
-end
-
 def won?(board)
-  winner = []
-  empty_board = board.all? {|x| x == " "}
-  WIN_COMBINATIONS.each do |sub_array|
-    if empty_board || full?(board)
-      return false
-    elsif sub_array.all? { |value| board[value] =="X" } || sub_array.all? { |value| board[value] =="O" }
-      winner = sub_array
+  WIN_COMBINATIONS.each do |win_combination|
+    win_index_1 = win_combination[0]
+    win_index_2 = win_combination[1]
+    win_index_3 = win_combination[2]
+
+    position_1 = board[win_index_1]
+    position_2 = board[win_index_2]
+    position_3 = board[win_index_3]
+
+    if position_1 == "X" && position_2 == "X" && position_3 == "X" || position_1 =="O" && position_2 == "O" && position_3 == "O"
+      return win_combination
     end
+
   end
-  winner
+else
+  false
 end
 
 def full?(board)
@@ -91,9 +33,23 @@ def full?(board)
 end
 
 def draw?(board)
-  if !won?(board) && full?(board)
+  if !(won?(board)) && full?(board)
     return true
-  elsif !won?(board) && !full?(board) || !won?(board)
+  elsif !(won?(board)) && !(full?(board)) || won?(board)
     return false
+  end
+end
+
+def over?(board)
+  if full?(board) || won?(board) || draw?(board)
+    return true
+  else 
+    return false 
+  end 
+end  
+
+def winner(board)
+  if winning_combination = won?(board)
+    board[winning_combination.first]
   end
 end
