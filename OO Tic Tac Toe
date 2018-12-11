@@ -1,11 +1,3 @@
-#!/usr/bin/env ruby
-require 'pry'
-require_relative '../lib/tic_tac_toe.rb'
-
-new_game = TicTacToe.new
-
-new_game.play
-
 # The "pipes" || = or. This is saying that if the board returns nil, return an empty array.  So, either display the current board, or a new one.
 class TicTacToe
   def initialize(board = nil)
@@ -140,3 +132,11 @@ class TicTacToe
     end
   end
 end
+
+#!/usr/bin/env ruby
+require 'pry'
+require_relative '../lib/tic_tac_toe.rb'
+
+new_game = TicTacToe.new
+
+new_game.play
